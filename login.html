@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackMyCrypto - Log in</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body data-page="login" class="text-ink antialiased" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
+<div class="grid lg:grid-cols-2 min-h-screen">
+
+  <section class="bg-brand text-white p-8 lg:p-16 flex flex-col justify-center gap-8">
+    <p class="text-2xl font-extrabold">TrackMyCrypto</p>
+    <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight">Track every coin.<br>See your whole portfolio in one place.</h1>
+    <p class="text-white/80 max-w-md">TrackMyCrypto is a crypto tracker with live prices for the top 100 coins, global market stats, and a personal portfolio with profit and loss.</p>
+    <ul class="space-y-3 text-sm max-w-md">
+      <li><b>&#10003; Real-time prices</b> streamed every second, with green and red flashes on every change.</li>
+      <li><b>&#10003; Full market table</b> with 1h, 24h and 7d change, market cap, volume, supply and 7-day charts.</li>
+      <li><b>&#10003; Market pulse</b> with total market cap, BTC and ETH dominance, and the Fear &amp; Greed index.</li>
+      <li><b>&#10003; Your profile</b> keeps your holdings, profit and loss, and watchlist.</li>
+    </ul>
+  </section>
+
+  <section class="flex items-center justify-center p-6 lg:p-16">
+    <div class="w-full max-w-sm">
+      <h2 class="text-2xl font-bold mb-1">Welcome</h2>
+      <p class="text-sm text-slate-500 mb-6">Log in or create an account to open the market.</p>
+
+      <div class="flex bg-slate-100 rounded-xl p-1 mb-5">
+        <button type="button" id="t-in">Log in</button>
+        <button type="button" id="t-up">Sign up</button>
+      </div>
+
+      <form id="form" class="space-y-4">
+        <div id="nameWrap">
+          <label class="text-sm font-semibold" for="name">Name</label>
+          <input id="name" autocomplete="name" class="mt-1 w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand">
+        </div>
+        <div>
+          <label class="text-sm font-semibold" for="email">Email</label>
+          <input id="email" type="email" required autocomplete="email" class="mt-1 w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand">
+        </div>
+        <div>
+          <label class="text-sm font-semibold" for="pass">Password</label>
+          <input id="pass" type="password" required minlength="6" autocomplete="current-password" class="mt-1 w-full border rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand">
+        </div>
+        <p id="err" class="text-sm text-down" role="alert"></p>
+        <button id="go" class="w-full bg-brand text-white font-semibold rounded-lg py-3 hover:opacity-90">Log in</button>
+      </form>
+
+      <button id="demo" type="button" class="w-full mt-3 border rounded-lg py-3 font-semibold hover:bg-slate-50">Try the demo account</button>
+      <p class="text-xs text-slate-400 mt-6">Demo project: accounts are stored only in this browser.</p>
+    </div>
+  </section>
+</div>
+<script src="shared.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

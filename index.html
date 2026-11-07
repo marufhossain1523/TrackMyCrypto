@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackMyCrypto - Track crypto prices and your portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body data-page="home" class="bg-white text-ink antialiased" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
+<header id="nav" class="border-b sticky top-0 bg-white z-20"></header>
+
+<main>
+  <section class="bg-slate-50 border-b">
+    <div class="max-w-7xl mx-auto px-4 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-sm font-semibold text-brand mb-3">Crypto tracker and portfolio</p>
+        <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight">Track every coin.<br>Know your portfolio.</h1>
+        <p class="text-lg text-slate-600 mt-5 max-w-lg">TrackMyCrypto shows live prices for the top 100 cryptocurrencies, the state of the whole market, and your own holdings with profit and loss, all in one place.</p>
+        <div id="cta" class="flex flex-wrap gap-3 mt-8">
+          <a href="login.html#signup" class="bg-brand text-white font-semibold rounded-lg px-6 py-3 hover:opacity-90">Get started free</a>
+          <a href="market.html" class="border font-semibold rounded-lg px-6 py-3 hover:bg-white">View cryptocurrencies</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-slate-500 mb-3">Live prices right now</p>
+        <div id="top" class="grid grid-cols-2 gap-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 py-16">
+    <h2 class="text-2xl font-bold text-center">Everything you need to follow the market</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+      <div class="border rounded-xl p-5"><p class="font-bold">Real-time prices</p><p class="text-sm text-slate-600 mt-2">Prices stream in every second and flash green or red as they move.</p></div>
+      <div class="border rounded-xl p-5"><p class="font-bold">Full market table</p><p class="text-sm text-slate-600 mt-2">1h, 24h and 7d change, market cap, volume, supply and a 7-day chart for each coin.</p></div>
+      <div class="border rounded-xl p-5"><p class="font-bold">Market pulse</p><p class="text-sm text-slate-600 mt-2">Total market cap, BTC and ETH dominance, and the Fear &amp; Greed index.</p></div>
+      <div class="border rounded-xl p-5"><p class="font-bold">Your profile</p><p class="text-sm text-slate-600 mt-2">Save holdings, see profit and loss, and star coins to build a watchlist.</p></div>
+    </div>
+  </section>
+
+  <section class="bg-slate-50 border-y">
+    <div class="max-w-7xl mx-auto px-4 py-16">
+      <h2 class="text-2xl font-bold text-center">How it works</h2>
+      <ol class="grid md:grid-cols-3 gap-6 mt-10 text-center">
+        <li><p class="w-10 h-10 rounded-full bg-brand text-white font-bold grid place-items-center mx-auto">1</p><p class="font-bold mt-3">Create an account</p><p class="text-sm text-slate-600 mt-1">Sign up in a few seconds, or try the demo account.</p></li>
+        <li><p class="w-10 h-10 rounded-full bg-brand text-white font-bold grid place-items-center mx-auto">2</p><p class="font-bold mt-3">Explore the market</p><p class="text-sm text-slate-600 mt-1">Browse the top 100 coins and star the ones you follow.</p></li>
+        <li><p class="w-10 h-10 rounded-full bg-brand text-white font-bold grid place-items-center mx-auto">3</p><p class="font-bold mt-3">Track your portfolio</p><p class="text-sm text-slate-600 mt-1">Add what you own and watch your balance change live.</p></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="max-w-7xl mx-auto px-4 py-8 flex flex-wrap justify-between gap-2 text-sm text-slate-500">
+  <span><b class="text-brand">TrackMyCrypto</b> - a crypto tracker demo project</span>
+  <span>Prices from CoinGecko and Binance. Not financial advice.</span>
+</footer>
+<script src="shared.js"></script>
+<script src="home.js"></script>
+</body>
+</html>

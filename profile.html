@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackMyCrypto - Profile</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body data-page="profile" class="bg-white text-ink antialiased" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
+<header id="nav" class="border-b sticky top-0 bg-white z-20"></header>
+
+<main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+  <div id="who" class="flex flex-wrap items-center gap-4 border rounded-2xl p-6"></div>
+
+  <div id="cards" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>
+
+  <section>
+    <h2 class="text-lg font-bold mb-3">My portfolio</h2>
+    <form id="add" class="flex flex-wrap gap-3 items-end mb-4">
+      <label class="flex-1 min-w-[160px] text-xs font-semibold text-slate-500">Coin
+        <select id="coin" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm text-ink bg-white"></select></label>
+      <label class="flex-1 min-w-[120px] text-xs font-semibold text-slate-500">Amount
+        <input id="amt" type="number" step="any" min="0" required placeholder="0.5" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm text-ink"></label>
+      <label class="flex-1 min-w-[140px] text-xs font-semibold text-slate-500">Buy price (USD)
+        <input id="buy" type="number" step="any" min="0" required placeholder="60000" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm text-ink"></label>
+      <button class="bg-brand text-white font-semibold rounded-lg px-5 py-2.5 text-sm hover:opacity-90">Add holding</button>
+    </form>
+    <div class="overflow-x-auto border rounded-xl"><table id="hold" class="w-full text-sm min-w-[560px]"></table></div>
+  </section>
+
+  <section>
+    <h2 class="text-lg font-bold mb-3">Watchlist</h2>
+    <div id="wl" class="flex flex-wrap gap-2"></div>
+  </section>
+</main>
+<script src="shared.js"></script>
+<script src="profile.js"></script>
+</body>
+</html>
