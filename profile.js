@@ -5,11 +5,11 @@ async function profilePage() {
   $('#who').innerHTML = `<div class="w-16 h-16 rounded-full bg-brand text-white grid place-items-center text-2xl font-bold">${esc(s.name[0].toUpperCase())}</div>
     <div class="flex-1"><h1 class="text-xl font-bold">${esc(s.name)}</h1><p class="text-sm text-slate-500">${esc(s.email)}</p><p class="text-xs text-slate-400">Member since ${new Date(s.joined).toLocaleDateString()}</p></div>
     <button id="rename" class="border rounded-lg px-3 py-2 text-sm font-semibold hover:bg-slate-50">Edit name</button><button id="out" class="bg-ink text-white rounded-lg px-3 py-2 text-sm font-semibold">Log out</button>`;
-  $('#out').onclick = () => { localStorage.removeItem('lg:session'); location.href = 'login.html'; };
-  $('#rename').onclick = () => {
+  $('#out').onclick = logout;
+  $('#rename').onclick = async () => {
     const n = prompt('Your name', s.name); if (!n || !n.trim()) return;
     s.name = n.trim(); ls.set('lg:session', s);
-    const u = ls.get('lg:users', {}); if (u[s.email]) { u[s.email].name = s.name; ls.set('lg:users', u); }
+    await sb.auth.updateUser({ data: { name: s.name } });
     location.reload();
   };
   await loadCoins();
@@ -31,4 +31,4 @@ async function profilePage() {
   tick = draw; draw(); live();
 }
 
-if (!user()) location.replace('login.html'); else profilePage();
+requireAuth().then(ok => ok && profilePage());

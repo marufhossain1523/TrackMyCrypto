@@ -12,7 +12,7 @@ function loginPage() {
     const em = $('#email').value.trim().toLowerCase(), pw = $('#pass').value;
     try { mode === 'in' ? await signin(em, pw) : await signup($('#name').value.trim() || em.split('@')[0], em, pw); } catch (x) { $('#err').textContent = x; }
   };
-  $('#demo').onclick = async () => { try { await signup('Demo User', 'demo@TrackMyCrypto.app', 'demo1234'); } catch (e) { await signin('demo@TrackMyCrypto.app', 'demo1234'); } };
+  $('#demo').onclick = async () => { try { await signin(DEMO_EMAIL, DEMO_PASS); } catch (x) { $('#err').textContent = x; } };
 }
 
 loginPage();

@@ -1,4 +1,4 @@
-/* TrackMyCrypto shared.js: helpers, auth, data and live prices used by every page. Login is a demo (browser storage only); use a real backend in production. */
+/* Ledgerly shared.js: helpers, auth, data and live prices used by every page. Login is a demo (browser storage only); use a real backend in production. */
 tailwind.config = { theme: { extend: { colors: { up: '#16c784', down: '#ea3943', brand: '#3861fb', ink: '#0d1421' } } } };
 document.head.insertAdjacentHTML('beforeend', '<style>@keyframes fu{from{background:#16c78440}}@keyframes fd{from{background:#ea394340}}.f-up{animation:fu 1s}.f-down{animation:fd 1s}@media(prefers-reduced-motion:reduce){.f-up,.f-down{animation:none}}</style>');
 
@@ -12,25 +12,45 @@ const num = n => n == null ? '-' : Intl.NumberFormat('en', { notation: 'compact'
 const chg = n => n == null ? '-' : `<span class="${n >= 0 ? 'text-up' : 'text-down'}">${n >= 0 ? '&#9650;' : '&#9660;'} ${Math.abs(n).toFixed(2)}%</span>`;
 const user = () => ls.get('lg:session', null);
 const setStatus = t => { const s = $('#status'); if (s) s.textContent = t; };
-const hash = async p => { try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(p)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); } catch (e) { return btoa(p); } };
+/* ---------- Auth (Supabase) ---------- */
+// 1) Create a free project at https://supabase.com  2) Settings > API: copy the Project URL and the anon public key
+const SUPABASE_URL = 'https://wrordhrkstnxqptbvyxa.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_UBX8sjATwIqvXFuS3quTsw_vMWtcTDm';
+const DEMO_EMAIL = 'demo@example.com', DEMO_PASS = 'demo1234'; // create this user in Supabase > Authentication > Users (tick Auto Confirm)
+const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-/* ---------- Auth ---------- */
-const start = email => { const u = ls.get('lg:users', {})[email]; ls.set('lg:session', { email, name: u.name, joined: u.joined }); location.href = 'market.html'; };
+// Small cache so pages can read the user synchronously (the real session lives in Supabase)
+const start = u => {
+  ls.set('lg:session', { email: u.email, name: u.user_metadata?.name || u.email.split('@')[0], joined: Date.parse(u.created_at) });
+  location.href = 'market.html';
+};
 async function signup(name, email, pass) {
-  const u = ls.get('lg:users', {});
-  if (u[email]) throw 'An account with this email already exists.';
-  u[email] = { name, pass: await hash(pass), joined: Date.now() };
-  ls.set('lg:users', u); start(email);
+  const { data, error } = await sb.auth.signUp({ email, password: pass, options: { data: { name } } });
+  if (error) throw error.message;
+  if (!data.session) throw 'Account created. Check your email to confirm it, then log in.';
+  start(data.user);
 }
 async function signin(email, pass) {
-  const u = ls.get('lg:users', {})[email];
-  if (!u || u.pass !== await hash(pass)) throw 'Wrong email or password.';
-  start(email);
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) throw error.message;
+  start(data.user);
+}
+async function logout() {
+  await sb.auth.signOut();
+  localStorage.removeItem('lg:session');
+  location.href = 'login.html';
+}
+async function requireAuth() { // true only when Supabase has a valid session
+  const { data } = sb ? await sb.auth.getSession() : { data: {} };
+  if (data.session) return true;
+  localStorage.removeItem('lg:session');
+  location.replace('login.html');
+  return false;
 }
 function nav(active) {
   const s = user(), link = (h, k, t) => `<a href="${h}" class="text-sm font-semibold ${active === k ? 'text-brand' : 'text-ink hover:text-brand'}">${t}</a>`;
   $('#nav').innerHTML = `<div class="max-w-7xl mx-auto flex items-center gap-6 px-4 h-16">
-    <a href="index.html" class="text-xl font-extrabold text-brand">TrackMyCrypto</a>${link('index.html', 'home', 'Home')}${link('market.html', 'market', 'Cryptocurrencies')}${link('profile.html', 'profile', 'Profile')}
+    <a href="index.html" class="text-xl font-extrabold text-brand">Ledgerly</a>${link('index.html', 'home', 'Home')}${link('market.html', 'market', 'Cryptocurrencies')}${link('profile.html', 'profile', 'Profile')}
     <div class="ml-auto flex items-center gap-3"><span id="status" class="hidden sm:block text-xs text-slate-500"></span>
     <a href="profile.html" aria-label="Profile" class="w-9 h-9 rounded-full bg-brand text-white grid place-items-center font-bold">${esc(s.name[0].toUpperCase())}</a></div></div>`;
 }

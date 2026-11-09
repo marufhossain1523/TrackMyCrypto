@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TrackMyCrypto - Log in</title>
+<title>Ledgerly - Log in</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body data-page="login" class="text-ink antialiased" style="font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
 <div class="grid lg:grid-cols-2 min-h-screen">
 
   <section class="bg-brand text-white p-8 lg:p-16 flex flex-col justify-center gap-8">
-    <p class="text-2xl font-extrabold">TrackMyCrypto</p>
+    <p class="text-2xl font-extrabold">Ledgerly</p>
     <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight">Track every coin.<br>See your whole portfolio in one place.</h1>
-    <p class="text-white/80 max-w-md">TrackMyCrypto is a crypto tracker with live prices for the top 100 coins, global market stats, and a personal portfolio with profit and loss.</p>
+    <p class="text-white/80 max-w-md">Ledgerly is a crypto tracker with live prices for the top 100 coins, global market stats, and a personal portfolio with profit and loss.</p>
     <ul class="space-y-3 text-sm max-w-md">
       <li><b>&#10003; Real-time prices</b> streamed every second, with green and red flashes on every change.</li>
       <li><b>&#10003; Full market table</b> with 1h, 24h and 7d change, market cap, volume, supply and 7-day charts.</li>
@@ -49,10 +49,11 @@
       </form>
 
       <button id="demo" type="button" class="w-full mt-3 border rounded-lg py-3 font-semibold hover:bg-slate-50">Try the demo account</button>
-      <p class="text-xs text-slate-400 mt-6">Demo project: accounts are stored only in this browser.</p>
+      <p class="text-xs text-slate-400 mt-6">Accounts are stored securely with Supabase Auth.</p>
     </div>
   </section>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
 <script src="shared.js"></script>
 <script src="login.js"></script>
 </body>

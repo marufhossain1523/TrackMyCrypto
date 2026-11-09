@@ -43,4 +43,4 @@ async function marketPage() {
   if (g) $('#sub').innerHTML = `The global crypto market cap is ${big(g.total_market_cap.usd)}, a ${Math.abs(d).toFixed(2)}% ${d >= 0 ? 'increase' : 'decrease'} over the last day.`;
 }
 
-if (!user()) location.replace('login.html'); else marketPage();
+requireAuth().then(ok => ok && marketPage());
