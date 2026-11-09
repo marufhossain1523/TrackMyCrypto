@@ -47,6 +47,16 @@ async function requireAuth() { // true only when Supabase has a valid session
   location.replace('login.html');
   return false;
 }
+
+/* ---------- Cloud data (Supabase tables: holdings, watchlist) ---------- */
+const db = {
+  async holdings() { const { data, error } = await sb.from('holdings').select('*').order('created_at'); if (error) throw error.message; return data.map(r => ({ id: r.id, coin: r.coin_id, amt: +r.amount, buy: +r.buy_price })); },
+  async addHolding(coin, amt, buy) { const { error } = await sb.from('holdings').insert({ coin_id: coin, amount: amt, buy_price: buy }); if (error) throw error.message; },
+  async delHolding(id) { const { error } = await sb.from('holdings').delete().eq('id', id); if (error) throw error.message; },
+  async watch() { const { data, error } = await sb.from('watchlist').select('coin_id'); if (error) throw error.message; return data.map(r => r.coin_id); },
+  async toggleWatch(coin, remove) { const { error } = await (remove ? sb.from('watchlist').delete().eq('coin_id', coin) : sb.from('watchlist').insert({ coin_id: coin })); if (error) throw error.message; }
+};
+
 function nav(active) {
   const s = user(), link = (h, k, t) => `<a href="${h}" class="text-sm font-semibold ${active === k ? 'text-brand' : 'text-ink hover:text-brand'}">${t}</a>`;
   $('#nav').innerHTML = `<div class="max-w-7xl mx-auto flex items-center gap-6 px-4 h-16">

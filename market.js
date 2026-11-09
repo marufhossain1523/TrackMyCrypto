@@ -2,7 +2,8 @@
 async function marketPage() {
   nav('market');
   let tab = 'top';
-  const wk = 'lg:w:' + user().email, watch = () => ls.get(wk, []);
+  let W = [];
+  const watch = () => W;
   const rows = () => {
     let l = coins.filter(c => (c.name + c.sym).toLowerCase().includes($('#q').value.toLowerCase()));
     if (tab === 'gainers') l = [...l].sort((a, b) => (b.d1 ?? 0) - (a.d1 ?? 0));
@@ -25,13 +26,14 @@ async function marketPage() {
         <td class="px-3 text-right">${big(c.mcap)}<td class="px-3 text-right">${big(c.vol)}<td class="px-3 text-right whitespace-nowrap">${num(c.sup)} ${esc(c.sym)}
         <td class="px-3 text-right">${spark(c.spark, (c.d7 ?? c.d1) >= 0)}</tr>`).join('') : '<tr><td colspan="11" class="p-10 text-center text-slate-500">Nothing here yet. Tap the star on a coin to add it to your watchlist.</tr>') + '</tbody>';
   };
-  document.addEventListener('click', e => {
+  document.addEventListener('click', async e => {
     const t = e.target;
     if (t.dataset.tab) { tab = t.dataset.tab; draw(); }
-    if (t.dataset.star) { const w = watch(), i = w.indexOf(t.dataset.star); i < 0 ? w.push(t.dataset.star) : w.splice(i, 1); ls.set(wk, w); draw(); }
+    if (t.dataset.star) { const id = t.dataset.star, has = W.includes(id); try { await db.toggleWatch(id, has); W = has ? W.filter(x => x !== id) : [...W, id]; draw(); } catch (x) { alert(x); } }
   });
   $('#q').oninput = draw;
-  await loadCoins(); tick = draw; draw(); live(); setInterval(async () => { await loadCoins(); draw(); }, 300000);
+  try { W = await db.watch(); } catch (e) {}
+await loadCoins(); tick = draw; draw(); live(); setInterval(async () => { await loadCoins(); draw(); }, 300000);
 
   const g = await fetch(API + '/global').then(r => r.json()).then(r => r.data).catch(() => null);
   const f = await fetch('https://api.alternative.me/fng/').then(r => r.json()).then(r => r.data[0]).catch(() => null);

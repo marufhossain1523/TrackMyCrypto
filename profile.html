@@ -17,8 +17,12 @@
   <section>
     <h2 class="text-lg font-bold mb-3">My portfolio</h2>
     <form id="add" class="flex flex-wrap gap-3 items-end mb-4">
-      <label class="flex-1 min-w-[160px] text-xs font-semibold text-slate-500">Coin
-        <select id="coin" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm text-ink bg-white"></select></label>
+      <div class="relative flex-1 min-w-[200px]">
+        <label for="coinSearch" class="text-xs font-semibold text-slate-500">Coin</label>
+        <input id="coinSearch" autocomplete="off" required placeholder="Search coin, e.g. Bitcoin" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm text-ink">
+        <input id="coin" type="hidden">
+        <ul id="coinList" class="absolute z-30 mt-1 w-full max-h-64 overflow-auto bg-white border rounded-lg shadow-lg" hidden></ul>
+      </div>
       <label class="flex-1 min-w-[120px] text-xs font-semibold text-slate-500">Amount
         <input id="amt" type="number" step="any" min="0" required placeholder="0.5" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm text-ink"></label>
       <label class="flex-1 min-w-[140px] text-xs font-semibold text-slate-500">Buy price (USD)
