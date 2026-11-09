@@ -14,8 +14,8 @@ const user = () => ls.get('lg:session', null);
 const setStatus = t => { const s = $('#status'); if (s) s.textContent = t; };
 /* ---------- Auth (Supabase) ---------- */
 // 1) Create a free project at https://supabase.com  2) Settings > API: copy the Project URL and the anon public key
-const SUPABASE_URL = 'https://wrordhrkstnxqptbvyxa.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_UBX8sjATwIqvXFuS3quTsw_vMWtcTDm';
+const SUPABASE_URL = 'https://fmzuyjrngufxtaycmhky.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_A0vFv8-HoHn7zN6mQpXZZA_XY9PmRr_';
 const DEMO_EMAIL = 'demo@example.com', DEMO_PASS = 'demo1234'; // create this user in Supabase > Authentication > Users (tick Auto Confirm)
 const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
