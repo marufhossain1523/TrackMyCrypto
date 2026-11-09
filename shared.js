@@ -1,4 +1,4 @@
-/* Ledgerly shared.js: helpers, auth, data and live prices used by every page. Login is a demo (browser storage only); use a real backend in production. */
+/* TrackMyCrypto shared.js: helpers, auth, data and live prices used by every page. Login is a demo (browser storage only); use a real backend in production. */
 tailwind.config = { theme: { extend: { colors: { up: '#16c784', down: '#ea3943', brand: '#3861fb', ink: '#0d1421' } } } };
 document.head.insertAdjacentHTML('beforeend', '<style>@keyframes fu{from{background:#16c78440}}@keyframes fd{from{background:#ea394340}}.f-up{animation:fu 1s}.f-down{animation:fd 1s}@media(prefers-reduced-motion:reduce){.f-up,.f-down{animation:none}}</style>');
 
@@ -60,9 +60,10 @@ const db = {
 function nav(active) {
   const s = user(), link = (h, k, t) => `<a href="${h}" class="text-sm font-semibold ${active === k ? 'text-brand' : 'text-ink hover:text-brand'}">${t}</a>`;
   $('#nav').innerHTML = `<div class="max-w-7xl mx-auto flex items-center gap-6 px-4 h-16">
-    <a href="index.html" class="text-xl font-extrabold text-brand">Ledgerly</a>${link('index.html', 'home', 'Home')}${link('market.html', 'market', 'Cryptocurrencies')}${link('profile.html', 'profile', 'Profile')}
-    <div class="ml-auto flex items-center gap-3"><span id="status" class="hidden sm:block text-xs text-slate-500"></span>
-    <a href="profile.html" aria-label="Profile" class="w-9 h-9 rounded-full bg-brand text-white grid place-items-center font-bold">${esc(s.name[0].toUpperCase())}</a></div></div>`;
+    <a href="index.html" class="text-xl font-extrabold text-brand">TrackMyCrypto</a>${link('index.html', 'home', 'Home')}${link('market.html', 'market', 'Cryptocurrencies')}${s ? link('profile.html', 'profile', 'Profile') : ''}
+  <div class="ml-auto flex items-center gap-3"><span id="status" class="hidden sm:block text-xs text-slate-500"></span>${s
+    ? `<a href="profile.html" aria-label="Profile" class="w-9 h-9 rounded-full bg-brand text-white grid place-items-center font-bold">${esc(s.name[0].toUpperCase())}</a>`
+    : '<a href="login.html" class="text-sm font-semibold px-4 py-2 rounded-lg hover:bg-slate-100">Log in</a><a href="login.html#signup" class="text-sm font-semibold px-4 py-2 rounded-lg bg-brand text-white hover:opacity-90">Sign up</a>'}</div></div>`;
 }
 
 /* ---------- Data ---------- */

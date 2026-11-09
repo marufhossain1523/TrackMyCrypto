@@ -28,11 +28,12 @@ async function marketPage() {
   };
   document.addEventListener('click', async e => {
     const t = e.target;
-    if (t.dataset.tab) { tab = t.dataset.tab; draw(); }
-    if (t.dataset.star) { const id = t.dataset.star, has = W.includes(id); try { await db.toggleWatch(id, has); W = has ? W.filter(x => x !== id) : [...W, id]; draw(); } catch (x) { alert(x); } }
+    if (t.dataset.tab) { if (t.dataset.tab === 'watch' && !user()) return location.href = 'login.html'; tab = t.dataset.tab; draw(); }
+
+    if (t.dataset.star) { if (!user()) return location.href = 'login.html'; const id = t.dataset.star, has = W.includes(id); try { await db.toggleWatch(id, has); W = has ? W.filter(x => x !== id) : [...W, id]; draw(); } catch (x) { alert(x); } }
   });
   $('#q').oninput = draw;
-  try { W = await db.watch(); } catch (e) {}
+  if (user()) { try { W = await db.watch(); } catch (e) {} }
 await loadCoins(); tick = draw; draw(); live(); setInterval(async () => { await loadCoins(); draw(); }, 300000);
 
   const g = await fetch(API + '/global').then(r => r.json()).then(r => r.data).catch(() => null);
@@ -45,4 +46,4 @@ await loadCoins(); tick = draw; draw(); live(); setInterval(async () => { await 
   if (g) $('#sub').innerHTML = `The global crypto market cap is ${big(g.total_market_cap.usd)}, a ${Math.abs(d).toFixed(2)}% ${d >= 0 ? 'increase' : 'decrease'} over the last day.`;
 }
 
-requireAuth().then(ok => ok && marketPage());
+marketPage();
