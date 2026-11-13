@@ -17,10 +17,10 @@ async function marketPage() {
       .map(([k, l]) => `<button data-tab="${k}" class="px-3 py-1.5 rounded-lg text-sm font-semibold ${tab === k ? 'bg-slate-100 text-ink' : 'text-slate-500'}">${l}</button>`).join('');
     const w = watch(), l = rows();
     $('#mk').innerHTML = `<thead class="text-xs text-slate-500 bg-slate-50"><tr>${th('')}${th('#')}${th('Name')}${th('Price', 1)}${th('1h %', 1)}${th('24h %', 1)}${th('7d %', 1)}${th('Market Cap', 1)}${th('Volume(24h)', 1)}${th('Circulating Supply', 1)}${th('Last 7 Days', 1)}</tr></thead><tbody>` +
-      (l.length ? l.map(c => `<tr class="border-t hover:bg-slate-50">
+      (l.length ? l.map(c => `<tr data-href="coin.html?id=${encodeURIComponent(c.id)}" class="border-t hover:bg-slate-50 cursor-pointer">
         <td class="px-3 py-4"><button data-star="${esc(c.id)}" aria-label="Watch ${esc(c.name)}" class="text-lg ${w.includes(c.id) ? 'text-yellow-400' : 'text-slate-300'}">&#9733;</button>
         <td class="px-3 text-slate-500">${c.rank ?? ''}
-        <td class="px-3 font-semibold whitespace-nowrap">${c.img ? `<img src="${esc(c.img)}" alt="" class="inline w-6 h-6 rounded-full mr-2">` : ''}${esc(c.name)}<span class="text-xs text-slate-400 font-normal ml-2">${esc(c.sym)}</span>
+        <td class="px-3 font-semibold whitespace-nowrap"><a href="coin.html?id=${encodeURIComponent(c.id)}" class="hover:text-brand">${c.img ? `<img src="${esc(c.img)}" alt="" class="inline w-6 h-6 rounded-full mr-2">` : ''}${esc(c.name)}<span class="text-xs text-slate-400 font-normal ml-2">${esc(c.sym)}</span></a>
         <td class="px-3 text-right font-semibold ${c.flash ? 'f-' + c.dir : ''}">${usd(c.price)}
         <td class="px-3 text-right">${chg(c.h1)}<td class="px-3 text-right">${chg(c.d1)}<td class="px-3 text-right">${chg(c.d7)}
         <td class="px-3 text-right">${big(c.mcap)}<td class="px-3 text-right">${big(c.vol)}<td class="px-3 text-right whitespace-nowrap">${num(c.sup)} ${esc(c.sym)}
@@ -28,13 +28,14 @@ async function marketPage() {
   };
   document.addEventListener('click', async e => {
     const t = e.target;
+    const rowEl = t.closest('tr[data-href]');
+    if (rowEl && !t.closest('a, button')) return location.href = rowEl.dataset.href;
     if (t.dataset.tab) { if (t.dataset.tab === 'watch' && !user()) return location.href = 'login.html'; tab = t.dataset.tab; draw(); }
-
     if (t.dataset.star) { if (!user()) return location.href = 'login.html'; const id = t.dataset.star, has = W.includes(id); try { await db.toggleWatch(id, has); W = has ? W.filter(x => x !== id) : [...W, id]; draw(); } catch (x) { alert(x); } }
   });
   $('#q').oninput = draw;
   if (user()) { try { W = await db.watch(); } catch (e) {} }
-await loadCoins(); tick = draw; draw(); live(); setInterval(async () => { await loadCoins(); draw(); }, 300000);
+  await loadCoins(); tick = draw; draw(); live(); setInterval(async () => { await loadCoins(); draw(); }, 300000);
 
   const g = await fetch(API + '/global').then(r => r.json()).then(r => r.data).catch(() => null);
   const f = await fetch('https://api.alternative.me/fng/').then(r => r.json()).then(r => r.data[0]).catch(() => null);

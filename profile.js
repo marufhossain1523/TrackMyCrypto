@@ -39,7 +39,7 @@ document.addEventListener('click', e => {
       r.map(x => `<tr class="border-t"><td class="p-3 font-semibold">${esc(x.c.name)} <span class="text-xs text-slate-400">${esc(x.c.sym)}</span><td class="p-3 text-right">${x.amt}<td class="p-3 text-right">${usd(x.c.price)}<td class="p-3 text-right">${usd(x.v)}
         <td class="p-3 text-right ${x.v - x.cost >= 0 ? 'text-up' : 'text-down'}">${usd(x.v - x.cost)}<td class="p-3 text-right"><button data-del="${x.id}" class="text-xs text-slate-500 hover:text-down">Remove</button></tr>`).join('') + '</tbody>'
       : '<tbody><tr><td class="p-8 text-center text-slate-500">No holdings yet. Add your first coin above.</tr></tbody>';
-    $('#wl').innerHTML = w.length ? w.map(id => { const c = coins.find(y => y.id === id); return c ? `<span class="border rounded-full px-3 py-1 text-sm">${esc(c.name)} <b>${usd(c.price)}</b> ${chg(c.d1)}</span>` : ''; }).join('') : '<span class="text-sm text-slate-500">Star coins on the Market page to see them here.</span>';
+    $('#wl').innerHTML = w.length ? w.map(id => { const c = coins.find(y => y.id === id); return c ? `<a href="coin.html?id=${encodeURIComponent(c.id)}" class="border rounded-full px-3 py-1 text-sm hover:border-brand">${esc(c.name)} <b>${usd(c.price)}</b> ${chg(c.d1)}</a>` : ''; }).join('') : '<span class="text-sm text-slate-500">Star coins on the Market page to see them here.</span>';
   };
   $('#add').onsubmit = async e => {
     e.preventDefault();
